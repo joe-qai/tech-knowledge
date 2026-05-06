@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Tech Knowledge RAG知识库 - 基于博客内容训练的AI智能问答系统">
+  <title>AI知识库 | Tech Knowledge</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+  <header class="header" id="header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">QA</div>
+          <div class="logo-text">
+            Tech Knowledge
+            <span>Quality Assurance</span>
+          </div>
+        </a>
+        <nav class="nav">
+          <a href="index.html" class="nav-link">首页</a>
+          <a href="posts.html" class="nav-link">文章</a>
+          <a href="tools.html" class="nav-link">工具</a>
+          <a href="knowledge.html" class="nav-link active">知识库</a>
+          <a href="about.html" class="nav-link">关于</a>
+        </nav>
+        <button class="search-btn" onclick="location.href='posts.html'" aria-label="搜索">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+        <button class="mobile-menu-btn" aria-label="菜单">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="knowledge-section">
+      <div class="container">
+        <div class="knowledge-header">
+          <h1 class="knowledge-title">AI 知识库</h1>
+          <p class="knowledge-desc">
+            基于博客内容训练的RAG智能问答系统，你可以用自然语言提问，我会从知识库中寻找答案并标注引用来源。
+          </p>
+        </div>
+
+        <div class="search-box">
+          <div class="search-input-wrapper">
+            <input
+              type="text"
+              id="search-input"
+              class="search-input"
+              placeholder="问我任何技术问题..."
+              autocomplete="off"
+            >
+            <button id="search-btn" class="search-submit">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+              <span>提问</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="chat-container">
+          <div class="chat-messages" id="chat-messages">
+            <div class="chat-message ai">
+              <div class="message-bubble">
+                👋 你好！我是基于TechBlog内容训练的AI知识库助手。我可以回答关于前端开发、后端架构、DevOps等话题的问题。你有什么想问的吗？
+              </div>
+              <div class="message-time">现在</div>
+            </div>
+          </div>
+          <div class="suggested-queries" id="suggested-queries">
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 24px;">
+          <button class="btn btn-secondary" onclick="Knowledge.clearHistory()" style="background: transparent;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
+            <span>清除对话历史</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding: 60px 0; background: var(--color-bg);">
+      <div class="container">
+        <h2 class="section-title">知识库特点</h2>
+        <div class="features-grid" style="grid-template-columns: repeat(3, 1fr);">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+              </svg>
+            </div>
+            <h3 class="feature-title">内容溯源</h3>
+            <p class="feature-desc">每条回答都会标注参考来源，点击即可跳转到对应文章深入阅读。</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon" style="background: var(--color-primary);">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              </svg>
+            </div>
+            <h3 class="feature-title">语义理解</h3>
+            <p class="feature-desc">基于向量检索技术，能理解问题的语义而非简单关键词匹配。</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon" style="background: var(--color-accent);">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              </svg>
+            </div>
+            <h3 class="feature-title">对话式交互</h3>
+            <p class="feature-desc">像聊天一样提问，支持追问和澄清，获得更精准的答案。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" id="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-copy">
+          <a href="https://github.com" target="_blank" class="footer-github">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            GitHub
+          </a>
+          <span class="footer-divider">|</span>
+          <span>© 2025 Tech Knowledge - 质量源于专注</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/knowledge.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => Knowledge.init());
+  </script>
+</body>
+</html>

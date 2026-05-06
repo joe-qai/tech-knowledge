@@ -1,0 +1,63 @@
+{
+  "category": "智能体平台",
+  "categorySlug": "agent-platform",
+  "description": "搭建自己的智能体平台，实现AI生成测试用例、智能测试编排等",
+  "icon": "agent-platform",
+  "articles": [
+    {
+      "id": "agent-platform-1",
+      "title": "智能体平台选型：Dify vs Coze vs FastGPT vs LangFlow",
+      "slug": "agent-platform-selection-guide",
+      "excerpt": "深度对比四款主流智能体搭建平台，从易用性、扩展性、私有化部署到测试场景适配度，帮你选择最适合的智能体平台。",
+      "date": "2025-04-20",
+      "readTime": "22 min",
+      "tags": ["智能体平台", "Dify", "Coze", "FastGPT", "选型"],
+      "author": "测试工程师",
+      "content": "## 为什么需要智能体平台\n\n智能体平台让非技术人员也能搭建AI应用。对于测试团队，智能体平台可以快速构建：\n\n- AI测试用例生成器\n- 智能缺陷分析助手\n- 测试报告自动生成\n- 需求评审辅助系统\n\n## 四款平台对比\n\n### Dify\n\n开源的LLM应用开发平台：\n\n| 维度 | 评价 |\n|------|------|\n| 易用性 | ★★★★ 可视化工作流 |\n| 扩展性 | ★★★★★ 支持自定义工具和API |\n| 私有化 | ★★★★★ 开源，完全可控 |\n| 测试适配 | ★★★★ 需要自定义工具 |\n\n**核心优势：** 工作流编排灵活，支持RAG，可私有化部署\n\n### Coze（扣子）\n\n字节跳动推出的智能体平台：\n\n| 维度 | 评价 |\n|------|------|\n| 易用性 | ★★★★★ 最易上手 |\n| 扩展性 | ★★★ 插件生态有限 |\n| 私有化 | ★★ 仅SaaS |\n| 测试适配 | ★★★ 内置部分测试插件 |\n\n**核心优势：** 上手极快，免费额度充足，中文优化\n\n### FastGPT\n\n专注知识库问答的智能体平台：\n\n| 维度 | 评价 |\n|------|------|\n| 易用性 | ★★★★ 知识库配置简单 |\n| 扩展性 | ★★★ 工作流能力有限 |\n| 私有化 | ★★★★★ 开源 |\n| 测试适配 | ★★★ 适合知识库问答 |\n\n**核心优势：** RAG能力强，知识库管理优秀\n\n### LangFlow\n\n基于LangChain的可视化编排平台：\n\n| 维度 | 评价 |\n|------|------|\n| 易用性 | ★★★ 需要LangChain知识 |\n| 扩展性 | ★★★★★ 最灵活 |\n| 私有化 | ★★★★★ 开源 |\n| 测试适配 | ★★★★ 可深度定制 |\n\n**核心优势：** 灵活度最高，适合复杂工作流\n\n## 测试场景适配度\n\n| 测试场景 | Dify | Coze | FastGPT | LangFlow |\n|----------|------|------|---------|----------|\n| 用例生成 | ★★★★ | ★★★ | ★★ | ★★★★★ |\n| 缺陷分析 | ★★★★ | ★★★ | ★★★ | ★★★★ |\n| 知识库问答 | ★★★★ | ★★★ | ★★★★★ | ★★★ |\n| 测试报告 | ★★★★ | ★★★★ | ★★ | ★★★★ |\n| CI/CD集成 | ★★★★★ | ★★ | ★★ | ★★★★★ |\n\n## 选择建议\n\n- **快速验证**：Coze（零门槛）\n- **知识库问答**：FastGPT（RAG最强）\n- **生产部署**：Dify（平衡之选）\n- **深度定制**：LangFlow（最灵活）\n\n## 总结\n\n智能体平台的选择取决于团队的技术能力和使用场景。Coze适合快速验证，FastGPT适合知识库场景，Dify是生产部署的平衡之选，LangFlow适合需要深度定制的团队。建议先用Coze验证想法，再用Dify或LangFlow做生产部署。"
+    },
+    {
+      "id": "agent-platform-2",
+      "title": "用Dify搭建AI测试用例生成器：从需求到用例的自动化",
+      "slug": "dify-test-case-generator",
+      "excerpt": "基于Dify平台搭建AI测试用例生成器，实现需求文档输入→智能分析→测试用例输出的完整自动化流程。",
+      "date": "2025-04-12",
+      "readTime": "24 min",
+      "tags": ["智能体平台", "Dify", "测试用例", "自动化"],
+      "author": "测试工程师",
+      "content": "## Dify环境搭建\n\n### Docker部署\n\n```bash\ngit clone https://github.com/langgenius/dify.git\ncd dify/docker\n docker compose up -d\n```\n\n访问 http://localhost/install 完成初始化。\n\n## 创建测试用例生成器\n\n### 步骤1：创建应用\n\n在Dify中创建「Chatflow」类型应用，命名为「测试用例生成器」。\n\n### 步骤2：设计工作流\n\n```\n开始 → LLM(需求分析) → LLM(用例生成) → 代码(格式化) → 结束\n```\n\n### 步骤3：配置LLM节点\n\n**需求分析节点：**\n\n```\n系统提示词：\n你是需求分析专家。请分析用户输入的需求文档，提取：\n1. 功能点列表\n2. 每个功能的测试要点\n3. 需求中的模糊点\n\n输出JSON格式。\n```\n\n**用例生成节点：**\n\n```\n系统提示词：\n你是测试用例设计专家。基于以下需求分析结果，生成测试用例：\n\n设计方法：\n1. 等价类划分\n2. 边界值分析\n3. 错误推测法\n\n每个用例包含：ID、标题、优先级、步骤、预期结果\n```\n\n### 步骤4：添加自定义工具\n\n在Dify中注册自定义API工具：\n\n```yaml\ntools:\n  - name: save_to_testrail\n    description: 保存用例到TestRail\n    api: \n      method: POST\n      url: https://testrail.example.com/api/add_case\n      headers:\n        Authorization: Bearer {{token}}\n```\n\n### 步骤5：配置知识库\n\n上传测试规范文档作为RAG知识库：\n\n- 测试用例编写规范\n- 业务领域知识\n- 历史优秀用例\n\n## 使用效果\n\n输入：\n```\n用户注册功能：\n- 支持手机号和邮箱注册\n- 密码需8-20位，包含大小写字母和数字\n- 需要短信/邮箱验证码\n- 同一手机号/邮箱只能注册一次\n```\n\n输出：\n```\n已生成15个测试用例：\n\nTC-REG-001 [P0] 手机号正常注册\nTC-REG-002 [P0] 邮箱正常注册\nTC-REG-003 [P1] 密码少于8位\nTC-REG-004 [P1] 密码缺少大写字母\nTC-REG-005 [P1] 验证码过期\nTC-REG-006 [P1] 重复手机号注册\n...\n```\n\n## 总结\n\nDify搭建AI测试用例生成器的核心是工作流设计：需求分析→用例生成→格式化输出。结合RAG知识库和自定义工具，可以实现从需求到可导入用例管理系统的完整自动化。"
+    },
+    {
+      "id": "agent-platform-3",
+      "title": "FastGPT知识库搭建：让AI理解你的测试业务",
+      "slug": "fastgpt-knowledge-base-for-testing",
+      "excerpt": "基于FastGPT搭建测试知识库，将测试规范、业务文档、历史Bug等知识注入AI，实现精准的测试问答和建议。",
+      "date": "2025-04-05",
+      "readTime": "20 min",
+      "tags": ["智能体平台", "FastGPT", "知识库", "RAG"],
+      "author": "测试工程师",
+      "content": "## 为什么测试团队需要知识库\n\n测试团队积累了大量知识：测试规范、业务文档、历史Bug、测试策略。这些知识散落在各处，新人难以快速获取。FastGPT可以将这些知识结构化，让AI基于你的业务知识回答问题。\n\n## FastGPT部署\n\n```bash\ngit clone https://github.com/labring/FastGPT.git\ncd FastGPT/deploy/docker-compose\n docker compose up -d\n```\n\n## 知识库构建\n\n### 1. 收集知识源\n\n```\n知识源分类：\n├── 测试规范/\n│   ├── 用例编写规范.docx\n│   ├── 缺陷管理流程.pdf\n│   └── 自动化测试指南.md\n├── 业务文档/\n│   ├── 产品需求文档/\n│   ├── 接口文档/\n│   └── 数据字典/\n├── 历史Bug/\n│   ├── 高频Bug集.xlsx\n│   └── 线上事故复盘/\n└── 测试策略/\n    ├── 回归测试策略.md\n    └── 性能测试方案.md\n```\n\n### 2. 数据清洗与分块\n\n```python\ndef chunk_document(text, max_length=500):\n    chunks = []\n    paragraphs = text.split('\\n\\n')\n    current_chunk = ''\n    \n    for para in paragraphs:\n        if len(current_chunk) + len(para) > max_length:\n            chunks.append(current_chunk)\n            current_chunk = para\n        else:\n            current_chunk += '\\n\\n' + para\n    \n    if current_chunk:\n        chunks.append(current_chunk)\n    \n    return chunks\n```\n\n### 3. 配置知识库\n\n在FastGPT中创建知识库：\n\n1. 上传文档\n2. 选择分块策略（自动/手动）\n3. 配置向量模型（text-embedding-3-small）\n4. 开始索引\n\n## 应用场景\n\n### 新人培训\n\n```\nQ: 我们项目的登录功能怎么测试？\nA: 根据测试规范，登录功能需要覆盖以下场景：\n1. 正常登录（手机号+密码、邮箱+密码）\n2. 密码错误3次后锁定\n3. 验证码登录\n4. 第三方OAuth登录\n5. 安全性测试（SQL注入、暴力破解）\n\n参考文档：测试规范/登录模块测试指南.md\n```\n\n### Bug查询\n\n```\nQ: 上次支付模块出了什么线上问题？\nA: 根据历史记录，支付模块曾出现以下线上问题：\n1. 2024-08 双重支付问题（并发导致）\n2. 2024-11 退款金额计算错误\n3. 2025-01 支付超时未正确回调\n\n建议重点关注并发和回调场景。\n```\n\n## 总结\n\nFastGPT知识库让AI真正理解你的测试业务。通过结构化的知识注入，AI的回答不再是泛泛而谈，而是基于你的团队规范和历史经验。这是AI从通用工具变为专业助手的关键一步。"
+    },
+    {
+      "id": "agent-platform-4",
+      "title": "LangFlow工作流实战：编排复杂的测试智能体",
+      "slug": "langflow-test-agent-workflow",
+      "excerpt": "使用LangFlow的可视化编排能力，构建包含多步骤推理、工具调用、条件分支的复杂测试智能体工作流。",
+      "date": "2025-03-28",
+      "readTime": "20 min",
+      "tags": ["智能体平台", "LangFlow", "工作流", "编排"],
+      "author": "测试工程师",
+      "content": "## LangFlow的核心能力\n\nLangFlow基于LangChain，提供可视化工作流编排。相比Dify，它的优势在于：\n\n- 更灵活的节点组合\n- 支持条件分支和循环\n- 可嵌入自定义Python代码\n- 与LangChain生态完全兼容\n\n## 测试智能体工作流设计\n\n### 完整流程\n\n```\n需求输入 → 需求解析 → [条件分支]\n  ├─ 功能测试 → 用例生成 → 脚本生成\n  ├─ 性能测试 → 场景设计 → JMeter脚本\n  └─ 安全测试 → 风险评估 → 测试清单\n→ 汇总 → 报告生成\n```\n\n### 关键节点实现\n\n**条件分支节点：**\n\n```python\ndef route_by_test_type(requirement_analysis):\n    test_types = requirement_analysis.get('test_types', [])\n    \n    routes = []\n    if 'functional' in test_types:\n        routes.append('functional')\n    if 'performance' in test_types:\n        routes.append('performance')\n    if 'security' in test_types:\n        routes.append('security')\n    \n    return routes\n```\n\n**工具调用节点：**\n\n```python\nfrom langchain.tools import Tool\n\ndef run_api_test(endpoint: str, method: str, params: dict) -> str:\n    import requests\n    response = requests.request(method, endpoint, json=params)\n    return f\"Status: {response.status_code}, Body: {response.text[:500]}\"\n\napi_test_tool = Tool(\n    name=\"api_test\",\n    description=\"执行API接口测试\",\n    func=run_api_test\n)\n```\n\n## 部署与集成\n\n```bash\npip install langflow\nlangflow run --port 7860\n```\n\n访问 http://localhost:7860 开始可视化编排。\n\n## 总结\n\nLangFlow适合需要复杂逻辑的测试智能体。条件分支、循环、自定义代码等能力，让它可以编排真实的测试工作流。缺点是学习曲线较陡，适合有一定技术基础的团队。"
+    },
+    {
+      "id": "agent-platform-5",
+      "title": "智能体平台安全与治理：企业级部署的必修课",
+      "slug": "agent-platform-security-governance",
+      "excerpt": "智能体平台的企业级部署需要考虑数据安全、访问控制、审计合规等治理问题，本文提供完整的安全治理方案。",
+      "date": "2025-03-20",
+      "readTime": "18 min",
+      "tags": ["智能体平台", "安全", "治理", "企业级"],
+      "author": "测试工程师",
+      "content": "## 企业级部署的安全挑战\n\n智能体平台在企业部署面临：\n\n- 测试数据泄露风险\n- 未授权访问内部系统\n- AI幻觉导致错误操作\n- 合规审计要求\n\n## 安全架构\n\n### 1. 网络隔离\n\n```\n外部网络 ←→ WAF ←→ 负载均衡 ←→ 智能体平台\n                                        ↕\n                                   内部VPC\n                                  ↕       ↕\n                              测试环境   数据库\n```\n\n### 2. 访问控制\n\n```yaml\nrbac:\n  roles:\n    viewer:\n      - read:knowledge_base\n      - read:conversation\n    tester:\n      - read:knowledge_base\n      - write:conversation\n      - execute:test_tool\n    admin:\n      - all\n```\n\n### 3. 数据脱敏\n\n```python\nclass DataMasker:\n    patterns = {\n        'phone': (r'1[3-9]\\d{9}', r'138****8000'),\n        'email': (r'[\\w.-]+@[\\w.-]+', r'u***@example.com'),\n        'id_card': (r'\\d{17}[\\dXx]', r'110***********1234'),\n    }\n    \n    def mask(self, text):\n        for name, (pattern, replacement) in self.patterns.items():\n            text = re.sub(pattern, replacement, text)\n        return text\n```\n\n### 4. 审计日志\n\n```python\nclass AuditLogger:\n    def log(self, user, action, resource, result):\n        entry = {\n            'timestamp': datetime.now().isoformat(),\n            'user': user,\n            'action': action,\n            'resource': resource,\n            'result': result,\n            'ip': request.remote_addr\n        }\n        self.storage.save(entry)\n```\n\n## 合规要求\n\n| 要求 | 实现方式 |\n|------|----------|\n| 数据本地化 | 私有化部署，数据不出域 |\n| 访问审计 | 完整操作日志 |\n| 敏感数据保护 | 自动脱敏 |\n| 权限最小化 | RBAC权限控制 |\n| AI输出审查 | 人工确认关键操作 |\n\n## 总结\n\n企业级智能体平台部署需要系统化的安全治理。网络隔离、访问控制、数据脱敏、审计日志四层防护，确保AI在安全边界内运行。安全不是阻碍创新，而是保障可持续发展的基础。"
+    }
+  ]
+}

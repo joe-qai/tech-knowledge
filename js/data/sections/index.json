@@ -1,0 +1,81 @@
+{
+  "categories": [
+    {
+      "name": "Agent",
+      "slug": "agent",
+      "description": "AI Agent架构设计与实战，包括Claude Code、OpenClaw等Agent框架的深度解析",
+      "icon": "agent",
+      "color": "#8b5cf6"
+    },
+    {
+      "name": "Prompts",
+      "slug": "prompts",
+      "description": "提示词工程实战，Prompt编写技巧、模板设计与优化策略",
+      "icon": "prompts",
+      "color": "#ec4899"
+    },
+    {
+      "name": "MCP",
+      "slug": "mcp",
+      "description": "Model Context Protocol协议实战，好用的MCP工具服务及如何构建自己的MCP服务",
+      "icon": "mcp",
+      "color": "#06b6d4"
+    },
+    {
+      "name": "Skills",
+      "slug": "skills",
+      "description": "好用的Skill介绍及如何设计自己的Skill，AI能力的模块化扩展",
+      "icon": "skills",
+      "color": "#f59e0b"
+    },
+    {
+      "name": "LLM",
+      "slug": "llm",
+      "description": "大语言模型深度解析，国内外主流LLM对比评测与实战应用",
+      "icon": "llm",
+      "color": "#3b82f6"
+    },
+    {
+      "name": "AI工具",
+      "slug": "ai-tools",
+      "description": "原生AI编程工具深度体验，Trae、Qoder、WorkBuddy等AI IDE实战评测",
+      "icon": "ai-tools",
+      "color": "#10b981"
+    },
+    {
+      "name": "智能体平台",
+      "slug": "agent-platform",
+      "description": "搭建自己的智能体平台，实现AI生成测试用例、智能测试编排等",
+      "icon": "agent-platform",
+      "color": "#6366f1"
+    },
+    {
+      "name": "性能测试",
+      "slug": "performance",
+      "description": "LoadRunner、JMeter、Locust性能测试实战，从方案设计到瓶颈分析",
+      "icon": "performance",
+      "color": "#ef4444"
+    },
+    {
+      "name": "自动化测试",
+      "slug": "automation",
+      "description": "接口自动化、Web自动化、APP自动化全栈实战，从工具到框架的完整方案",
+      "icon": "automation",
+      "color": "#22c55e"
+    },
+    {
+      "name": "测试理论",
+      "slug": "testing-theory",
+      "description": "软件测试理论基础，黑盒白盒测试、用例设计方法、测试策略等",
+      "icon": "testing-theory",
+      "color": "#f97316"
+    },
+    {
+      "name": "面试题库",
+      "slug": "interview",
+      "description": "历年经典面试题集锦，覆盖初中高级测试工程师、自动化测试、性能测试等岗位",
+      "icon": "interview",
+      "color": "#a855f7"
+    }
+  ]
+}

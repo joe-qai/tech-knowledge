@@ -1,0 +1,146 @@
+{
+  "knowledge_chunks": [
+    {
+      "id": "k001",
+      "title": "Vue3 Composition API 响应式系统",
+      "content": "Vue3使用ES6 Proxy实现响应式系统，相比Vue2的Object.defineProperty有根本性改进。核心API包括ref用于基础类型，reactive用于对象，computed用于计算属性，watch用于监听变化。",
+      "source": "Vue3 Composition API 最佳实践",
+      "source_id": 1,
+      "keywords": ["Vue3", "响应式", "ref", "reactive", "Proxy"]
+    },
+    {
+      "id": "k002",
+      "title": "自定义Hook模式",
+      "content": "自定义Hook是Composition API的核心特性，允许将可复用逻辑提取到独立函数。命名规范以use开头，如useWindowSize、useFetch等。Hook内部可以使用生命周期函数和响应式API。",
+      "source": "Vue3 Composition API 最佳实践",
+      "source_id": 1,
+      "keywords": ["Vue3", "自定义Hook", "Composition API", "可复用逻辑"]
+    },
+    {
+      "id": "k003",
+      "title": "RAG系统架构",
+      "content": "RAG(Retrieval-Augmented Generation)结合检索和生成技术。架构流程：用户查询→向量检索→知识库匹配→Prompt构建→LLM生成→回答。核心组件包括文档处理器、向量嵌入模型、向量数据库和LLM。",
+      "source": "从零构建RAG知识库系统",
+      "source_id": 2,
+      "keywords": ["RAG", "向量检索", "嵌入", "LLM", "知识库"]
+    },
+    {
+      "id": "k004",
+      "title": "文档分块策略",
+      "content": "RAG系统中文档分块很重要。推荐使用RecursiveCharacterTextSplitter，设置chunk_size在300-500字符之间，chunk_overlap约50字符。合理的分块大小和重叠能避免信息丢失。",
+      "source": "从零构建RAG知识库系统",
+      "source_id": 2,
+      "keywords": ["RAG", "文档分块", "chunk", "重叠", "text splitter"]
+    },
+    {
+      "id": "k005",
+      "title": "TypeScript条件类型",
+      "content": "条件类型T extends U ? X : Y允许根据类型关系动态确定类型。可以用于类型推断、类型过滤、类型映射等场景。内置工具类型如Extract<T, U>和Exclude<T, U>就是基于条件类型实现的。",
+      "source": "TypeScript类型体操入门",
+      "source_id": 3,
+      "keywords": ["TypeScript", "条件类型", "泛型", "类型推断"]
+    },
+    {
+      "id": "k006",
+      "title": "TypeScript映射类型",
+      "content": "映射类型通过{[P in K]: T}语法遍历已有类型生成新类型。结合修饰符readonly和?可以实现Readonly<T>、Partial<T>、Required<T>等内置工具类型。",
+      "source": "TypeScript类型体操入门",
+      "source_id": 3,
+      "keywords": ["TypeScript", "映射类型", "工具类型", "readonly", "可选"]
+    },
+    {
+      "id": "k007",
+      "title": "Docker Compose多服务编排",
+      "content": "Docker Compose通过YAML文件定义多容器应用。核心概念包括services(服务定义)、volumes(数据持久化)、networks(网络隔离)、depends_on(依赖关系)。常用命令：up/down/build/logs/ps。",
+      "source": "Docker Compose编排实战",
+      "source_id": 4,
+      "keywords": ["Docker", "Docker Compose", "容器编排", "YAML", "多容器"]
+    },
+    {
+      "id": "k008",
+      "title": "Docker数据持久化",
+      "content": "Docker中数据持久化使用volumes。有三种方式：named volumes（推荐，适合持久化数据）、bind mounts（适合开发时挂载源码）、tmpfs mounts（适合敏感数据存储）。",
+      "source": "Docker Compose编排实战",
+      "source_id": 4,
+      "keywords": ["Docker", "volumes", "数据持久化", "挂载"]
+    },
+    {
+      "id": "k009",
+      "title": "CSS Grid二维布局",
+      "content": "CSS Grid是二维布局系统，适合同时控制行和列。核心属性：grid-template-columns/rows定义轨道，grid-gap设置间距，grid-column/row定位项目。配合repeat()和fr单位实现响应式布局。",
+      "source": "CSS Grid布局完全指南",
+      "source_id": 5,
+      "keywords": ["CSS", "Grid", "二维布局", "grid-template", "响应式"]
+    },
+    {
+      "id": "k010",
+      "title": "CSS Grid响应式技巧",
+      "content": "使用auto-fill或auto-fit配合minmax()可以实现自适应网格布局。如repeat(auto-fill, minmax(280px, 1fr))能自动计算列数且保持最小宽度。这比媒体查询更简洁优雅。",
+      "source": "CSS Grid布局完全指南",
+      "source_id": 5,
+      "keywords": ["CSS", "Grid", "响应式", "auto-fill", "minmax"]
+    },
+    {
+      "id": "k011",
+      "title": "Git分支策略",
+      "content": "Git Flow适合成熟项目，有main/develop/feature/release/hotfix分支。GitHub Flow更适合CI/CD流程：创建分支→提交更新→开PR→合并→删除。更简单的T trunk-based development适合小团队。",
+      "source": "Git工作流最佳实践",
+      "source_id": 6,
+      "keywords": ["Git", "分支策略", "Git Flow", "GitHub Flow", "PR"]
+    },
+    {
+      "id": "k012",
+      "title": "Git高级操作",
+      "content": "交互式变基git rebase -i可以合并提交、修改消息、重排提交。git stash push -m保存工作进度，git stash pop恢复。git reflog可以恢复误删的提交。",
+      "source": "Git工作流最佳实践",
+      "source_id": 6,
+      "keywords": ["Git", "rebase", "stash", "变基", "提交历史"]
+    },
+    {
+      "id": "k013",
+      "title": "Node.js性能分析",
+      "content": "Node.js性能优化原则：测量先行不从猜测。工具包括内置--inspect、clinic.js套件(doctor/bubbleprof/flame)、0x生成火焰图。内存分析使用heapdump生成快照后用Chrome DevTools分析。",
+      "source": "Node.js性能优化实战",
+      "source_id": 7,
+      "keywords": ["Node.js", "性能优化", "profiling", "clinic", "内存分析"]
+    },
+    {
+      "id": "k014",
+      "title": "Node.js内存管理",
+      "content": "Node.js内存泄漏常见原因：全局变量累积、未移除的事件监听器、闭包引用、缓存无限增长。解决方案：使用WeakMap/WeakSet、及时移除监听器、限制缓存大小、添加内存监控告警。",
+      "source": "Node.js性能优化实战",
+      "source_id": 7,
+      "keywords": ["Node.js", "内存泄漏", "垃圾回收", "事件监听器", "缓存"]
+    },
+    {
+      "id": "k015",
+      "title": "React Server Components",
+      "content": "React Server Components允许组件在服务器渲染，减少客户端JavaScript。默认是Server Components，使用'use client'声明Client Components。Server Components可以访问后端资源如数据库，直接进行async/await数据获取。",
+      "source": "React Server Components深入理解",
+      "source_id": 8,
+      "keywords": ["React", "Server Components", "SSR", "服务端渲染", "App Router"]
+    },
+    {
+      "id": "k016",
+      "title": "RSC数据获取模式",
+      "content": "Server Components中可以直接使用async/await进行数据获取，无需useEffect和数据加载状态。数据请求会被React自动进行请求去重和缓存优化。Streaming SSR配合Suspense实现渐进式加载。",
+      "source": "React Server Components深入理解",
+      "source_id": 8,
+      "keywords": ["React", "Server Components", "数据获取", "Suspense", "Streaming"]
+    }
+  ],
+  "faq_answers": {
+    "vue3 reactive vs ref": "Vue3中ref用于包装基础类型值(字符串、数字、布尔等)，通过.value访问。reactive用于创建响应式对象，直接访问属性无需.value。ref内部实际也是通过reactive实现的。对于复杂类型，推荐使用reactive保持代码简洁。",
+    "如何开始学习typescript": "学习TypeScript建议路径：1)先熟悉ES6+语法 2)了解TypeScript基本类型和接口 3)学习泛型和条件类型 4)实践实际项目。推荐资源：TypeScript官方文档、Type Challenges类型挑战。",
+    "docker和docker compose区别": "Docker是单个容器管理工具，docker compose是编排多个容器的工具。Docker需要手动管理容器间依赖和网络，Compose通过YAML一键启动完整服务栈。开发环境推荐Compose，生产环境可用K8s。",
+    "css grid vs flexbox": "Flexbox是一维布局，适合单行或单列。Grid是二维布局，适合同时控制行和列。简单导航、居中用Flexbox。复杂页面布局、宫格用Grid。实际常组合使用。",
+    "git commit message规范": "推荐Conventional Commits规范：type(scope): subject。type包括feat/fix/docs/style/refactor/test/chore。subject简短描述，不超过50字符。如：feat(auth): add login with github"
+  },
+  "suggested_queries": [
+    "Vue3的ref和reactive有什么区别？",
+    "如何用Docker部署Node.js应用？",
+    "TypeScript条件类型怎么用？",
+    "CSS Grid如何实现响应式布局？",
+    "RAG系统的文档分块策略"
+  ]
+}
