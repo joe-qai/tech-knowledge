@@ -549,6 +549,21 @@ const PostDetail = {
     return result.join('\n');
   },
 
+  renderTable(text) {
+    const tableRegex = /^\|(.+)\|[\r\n]+\|[-:\s|]+\|[\r\n]+((?:\|.+\|[\r\n]*)+)/gm;
+    return text.replace(tableRegex, (match, headerRow, bodyRows) => {
+      const headers = headerRow.split('|').map(h => h.trim()).filter(h => h);
+      const rows = bodyRows.trim().split('\n').map(row => {
+        return row.split('|').map(cell => cell.trim()).filter(cell => cell);
+      });
+
+      let thead = '<thead><tr>' + headers.map(h => `<th>${h}</th>`).join('') + '</tr></thead>';
+      let tbody = '<tbody>' + rows.map(row => '<tr>' + row.map(cell => `<td>${cell}</td>`).join('') + '</tr>').join('') + '</tbody>';
+
+      return `<table>${thead}${tbody}</table>`;
+    });
+  },
+
   escapeHtml(text) {
     if (!text) return '';
     const div = document.createElement('div');

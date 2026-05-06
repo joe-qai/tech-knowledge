@@ -2278,10 +2278,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .post-detail-content {
   display: grid;
-  grid-template-columns: 1fr 260px;
+  grid-template-columns: 260px 1fr;
   gap: 48px;
   padding: 40px 0;
-  grid-template-areas: "content sidebar";
+  grid-template-areas: "sidebar content";
 }
 
 .post-detail-content .post-body {
