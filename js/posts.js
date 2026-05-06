@@ -237,9 +237,6 @@ const Posts = {
                 <span>${post.author || '测试工程师'}</span>
               </div>
               <p class="post-item-excerpt">${this.escapeHtml(post.excerpt || '')}</p>
-              <div class="post-tags">
-                ${post.tags ? post.tags.slice(0, 3).map(tag => `<span class="tag">${this.escapeHtml(tag)}</span>`).join('') : ''}
-              </div>
             </div>
           </article>
         `;
