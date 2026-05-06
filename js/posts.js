@@ -227,7 +227,6 @@ const Posts = {
           <article class="post-item">
             <div class="post-item-number">${String(start + index + 1).padStart(2, '0')}</div>
             <div class="post-item-content">
-              ${categoryName ? `<span class="post-category-badge" style="background: ${categoryColor}20; color: ${categoryColor}; border: 1px solid ${categoryColor}40;">${categoryName}</span>` : ''}
               <h3 class="post-item-title">
                 <a href="post.html?slug=${post.slug}">${this.escapeHtml(post.title || '')}</a>
               </h3>
@@ -237,6 +236,9 @@ const Posts = {
                 <span>${post.author || '测试工程师'}</span>
               </div>
               <p class="post-item-excerpt">${this.escapeHtml(post.excerpt || '')}</p>
+              <div class="post-tags">
+                ${post.tags ? post.tags.slice(0, 3).map(tag => `<span class="tag">${this.escapeHtml(tag)}</span>`).join('') : ''}
+              </div>
             </div>
           </article>
         `;
