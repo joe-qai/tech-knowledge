@@ -5,9 +5,11 @@ const CATEGORY_MAP = {
   'skills': 'Skills',
   'llm': 'LLM',
   'ai-tools': 'AI工具',
+  'devops': 'DevOps',
   'agent-platform': '智能体平台',
   'performance': '性能测试',
   'automation': '自动化测试',
+  'test-management': '测试管理',
   'testing-theory': '测试理论',
   'interview': '面试题库'
 };
@@ -41,9 +43,11 @@ const Posts = {
         './js/data/sections/skills.json',
         './js/data/sections/llm.json',
         './js/data/sections/ai-tools.json',
+        './js/data/sections/devops.json',
         './js/data/sections/agent-platform.json',
         './js/data/sections/performance.json',
         './js/data/sections/automation.json',
+        './js/data/sections/test-management.json',
         './js/data/sections/testing-theory.json',
         './js/data/sections/interview.json'
       ];
@@ -95,9 +99,11 @@ const Posts = {
       './js/data/sections/skills.json',
       './js/data/sections/llm.json',
       './js/data/sections/ai-tools.json',
+      './js/data/sections/devops.json',
       './js/data/sections/agent-platform.json',
       './js/data/sections/performance.json',
       './js/data/sections/automation.json',
+      './js/data/sections/test-management.json',
       './js/data/sections/testing-theory.json',
       './js/data/sections/interview.json'
     ];
