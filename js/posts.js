@@ -8,8 +8,8 @@ const CATEGORY_MAP = {
   'agent-platform': '智能体平台',
   'performance': '性能测试',
   'automation': '自动化测试',
-  'interview': '面试题库',
-  'testing-theory': '面试题库'
+  'testing-theory': '测试理论',
+  'interview': '面试题库'
 };
 
 const Posts = {
