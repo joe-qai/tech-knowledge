@@ -245,6 +245,8 @@ const Posts = {
               </h3>
               <div class="post-item-meta">
                 <span>${this.formatDate(post.date)}</span>
+                <span>&middot;</span>
+                <span>${post.author || '测试工程师'}</span>
               </div>
               <p class="post-item-excerpt">${this.escapeHtml(post.excerpt || '')}</p>
               <div class="post-tags">
