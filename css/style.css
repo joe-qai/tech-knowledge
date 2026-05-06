@@ -2463,11 +2463,21 @@ h1, h2, h3, h4, h5, h6 {
 
 .breadcrumb-item {
   color: var(--color-text-secondary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.breadcrumb-item:hover {
+  color: var(--color-primary);
 }
 
 .breadcrumb-category {
   color: var(--color-primary);
   font-weight: 500;
+}
+
+.breadcrumb-category:hover {
+  color: var(--color-secondary);
 }
 
 .breadcrumb-separator {

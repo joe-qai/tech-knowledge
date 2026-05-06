@@ -410,12 +410,13 @@ const PostDetail = {
     const header = document.querySelector('.post-detail-header');
       if (header) {
         const categoryName = post._categoryName || post.category || '未分类';
+        const categorySlug = post._categorySlug || post.categorySlug || '';
+        const categoryTag = categorySlug ? `?tag=${encodeURIComponent(categorySlug)}` : `?tag=${encodeURIComponent(categoryName)}`;
         header.innerHTML = `
-          <a href="javascript:history.back()" class="back-link">&lt; 返回</a>
           <div class="post-detail-breadcrumb">
-            <span class="breadcrumb-item">文章</span>
+            <a href="posts.html" class="breadcrumb-item">文章</a>
             <span class="breadcrumb-separator">&gt;</span>
-            <span class="breadcrumb-item breadcrumb-category">${categoryName}</span>
+            <a href="posts.html${categoryTag}" class="breadcrumb-item breadcrumb-category">${categoryName}</a>
           </div>
           <h1 class="post-detail-title">${this.escapeHtml(post.title)}</h1>
           <div class="post-detail-meta">
