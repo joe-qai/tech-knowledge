@@ -408,39 +408,46 @@ const PostDetail = {
     document.title = `${post.title} | Tech Knowledge`;
 
     const header = document.querySelector('.post-detail-header');
-    if (header) {
-      header.innerHTML = `
-        <h1 class="post-detail-title">${this.escapeHtml(post.title)}</h1>
-        <div class="post-detail-meta">
-          <div class="post-detail-meta-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-              <line x1="16" y1="2" x2="16" y2="6"></line>
-              <line x1="8" y1="2" x2="8" y2="6"></line>
-              <line x1="3" y1="10" x2="21" y2="10"></line>
+      if (header) {
+        header.innerHTML = `
+          <button class="back-btn" onclick="history.back()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
             </svg>
-            <span>${Posts.formatDate(post.date)}</span>
+            返回
+          </button>
+          <h1 class="post-detail-title">${this.escapeHtml(post.title)}</h1>
+          <div class="post-detail-meta">
+            <div class="post-detail-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              <span>${Posts.formatDate(post.date)}</span>
+            </div>
+            <div class="post-detail-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              <span>${post.readTime || '10 min'}</span>
+            </div>
+            <div class="post-detail-meta-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <span>${post.author || '测试工程师'}</span>
+            </div>
           </div>
-          <div class="post-detail-meta-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <polyline points="12 6 12 12 16 14"></polyline>
-            </svg>
-            <span>${post.readTime || '10 min'}</span>
+          <div class="post-detail-tags">
+            ${post.tags ? post.tags.map(tag => `<span class="tag">${this.escapeHtml(tag)}</span>`).join('') : ''}
           </div>
-          <div class="post-detail-meta-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-              <circle cx="12" cy="7" r="4"></circle>
-            </svg>
-            <span>${post.author || '测试工程师'}</span>
-          </div>
-        </div>
-        <div class="post-detail-tags">
-          ${post.tags ? post.tags.map(tag => `<span class="tag">${this.escapeHtml(tag)}</span>`).join('') : ''}
-        </div>
-      `;
-    }
+        `;
+      }
 
     const content = document.getElementById('post-content');
     if (content) {
