@@ -96,11 +96,11 @@
           </div>
           <div class="hero-stats">
             <div class="hero-stat">
-              <span class="hero-stat-value">55+</span>
+              <span class="hero-stat-value">50+</span>
               <span class="hero-stat-label">技术文章</span>
             </div>
             <div class="hero-stat">
-              <span class="hero-stat-value">11</span>
+              <span class="hero-stat-value">10</span>
               <span class="hero-stat-label">专题栏目</span>
             </div>
             <div class="hero-stat">
@@ -235,37 +235,28 @@
     }
   </script>
 
-  <div class="wechat-float" id="wechat-float">
-    <div class="wechat-float-inner">
-      <button class="wechat-toggle" onclick="toggleWechat()" aria-label="微信公众号">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm3.348 3.292c-1.603-.052-3.112.453-4.284 1.403-.736.597-1.287 1.343-1.67 2.155a.898.898 0 0 1-.76.457.858.858 0 0 1-.72-.323l-1.736-1.776a.822.822 0 0 1-.132-.968.857.857 0 0 1 .642-.402c2.825-.306 5.077-2.178 5.32-4.402a.84.84 0 0 1 .82-.738h1.98a.806.806 0 0 1 .719.474c.413.925.997 1.709 1.69 2.278a8.968 8.968 0 0 0-1.869 2.742zm1.098-.978a.808.808 0 0 1-.762.565h-1.845a.807.807 0 0 1-.762-.565c-.13-.37-.27-.738-.447-1.086a8.968 8.968 0 0 0 1.554-2.105.826.826 0 0 1 .762-.565h1.845a.807.807 0 0 1 .762.565 8.4 8.4 0 0 1 1.69 2.263 8.07 8.07 0 0 0-1.645 1.916.826.826 0 0 1-.652.012zM17.918 10.62c.153-1.06.168-2.123-.022-2.956a.836.836 0 0 0-.633-.629.814.814 0 0 0-.78.175c-.603.648-1.296 1.619-1.74 2.448a7.61 7.61 0 0 0-.89-.094c-1.668 0-3.13.728-3.956 1.862a.814.814 0 0 0-.006.905l1.338 1.618a.82.82 0 0 0 .9.248c.679-.268 1.244-.608 1.704-1.017.298.74.686 1.407 1.176 1.966l.034.038a.823.823 0 0 0 .6.24c.374 0 .697-.26.77-.633.293-1.483.401-2.842.272-4.09l-.002-.04a.802.802 0 0 0-.765-.041zm1.307-3.073c-2.088 0-3.787-1.706-3.787-3.804s1.7-3.804 3.787-3.804c2.088 0 3.787 1.706 3.787 3.804s-1.7 3.804-3.787 3.804zm0-6.565c-1.517 0-2.745 1.24-2.745 2.761 0 1.522 1.228 2.762 2.745 2.762 1.518 0 2.746-1.24 2.746-2.762 0-1.521-1.228-2.761-2.746-2.761z"/>
-        </svg>
-      </button>
-      <div class="wechat-panel" id="wechat-panel">
-        <div class="wechat-panel-header">
-          <span>关注公众号</span>
-          <button class="wechat-close" onclick="toggleWechat()" aria-label="关闭">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-          </button>
-        </div>
-        <div class="wechat-panel-body">
-          <img src="assets/images/qroder.jpg" alt="微信公众号" class="wechat-qr">
-          <p class="wechat-tip">扫码关注公众号<br>获取更多技术文章</p>
-        </div>
+  <div class="wechat-float-btn" onclick="showWechatModal()">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 01.213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 00.167-.054l1.903-1.114a.864.864 0 01.717-.098 10.16 10.16 0 002.837.403c4.801 0 8.692-3.287 8.692-7.342 0-4.054-3.891-7.339-8.692-7.339zm-3.12 4.218c.552 0 1 .452 1 1.008 0 .556-.448 1.008-1 1.008-.553 0-1-.452-1-1.008 0-.556.447-1.008 1-1.008zm6 0c.552 0 1 .452 1 1.008 0 .556-.448 1.008-1 1.008-.553 0-1-.452-1-1.008 0-.556.447-1.008 1-1.008zm3.06 2.577c-1.797-.052-3.446.682-4.646 1.833-1.225 1.175-1.932 2.782-1.88 4.579.052 1.797.682 3.446 1.833 4.646 1.175 1.225 2.782 1.932 4.579 1.88 1.797-.052 3.446-.682 4.646-1.833 1.225-1.175 1.932-2.782 1.88-4.579-.052-1.797-.682-3.446-1.833-4.646-1.158-1.202-2.759-1.911-4.542-1.86zm-1.516 3.016c.552 0 1 .452 1 1.008 0 .556-.448 1.008-1 1.008-.553 0-1-.452-1-1.008 0-.556.447-1.008 1-1.008zm3 0c.552 0 1 .452 1 1.008 0 .556-.448 1.008-1 1.008-.553 0-1-.452-1-1.008 0-.556.447-1.008 1-1.008z"/>
+    </svg>
+  </div>
+
+  <div class="wechat-modal-overlay" id="wechatModal" onclick="hideWechatModal()">
+    <div class="wechat-modal" onclick="event.stopPropagation()">
+      <div class="wechat-modal-title">微信公众号</div>
+      <div class="wechat-modal-qrcode">
+        <img src="assets/images/qroder.jpg" alt="微信公众号二维码" style="width: 180px; height: 180px;"/>
       </div>
+      <div class="wechat-modal-desc">扫码关注公众号<br/>获取更多技术文章</div>
     </div>
   </div>
 
   <script>
-    function toggleWechat() {
-      const panel = document.getElementById('wechat-panel');
-      const float = document.getElementById('wechat-float');
-      panel.classList.toggle('active');
-      float.classList.toggle('panel-open');
+    function showWechatModal() {
+      document.getElementById('wechatModal').classList.add('active');
+    }
+    function hideWechatModal() {
+      document.getElementById('wechatModal').classList.remove('active');
     }
   </script>
 </body>
