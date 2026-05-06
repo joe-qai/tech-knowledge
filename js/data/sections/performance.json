@@ -10,9 +10,13 @@
       "slug": "jmeter-performance-testing-complete-guide",
       "excerpt": "全面掌握JMeter性能测试，从测试计划设计、脚本编写、场景配置到结果分析，系统学习JMeter的每个关键环节。",
       "date": "2025-04-18",
-      "readTime": "24 min",
-      "tags": ["性能测试", "JMeter", "压测", "结果分析"],
-      "author": "测试工程师",
+      "tags": [
+        "性能测试",
+        "JMeter",
+        "压测",
+        "结果分析"
+      ],
+      "author": "资深测试专家",
       "content": "## JMeter核心概念\n\nJMeter是Apache开源的性能测试工具，支持多种协议和测试场景。\n\n### 测试计划层次\n\n```\nTest Plan\n├── Thread Group（线程组）\n│   ├── Sampler（采样器）\n│   ├── Listener（监听器）\n│   ├── Timer（定时器）\n│   ├── Pre Processor（前置处理器）\n│   └── Post Processor（后置处理器）\n├── Config Element（配置元件）\n└── Logic Controller（逻辑控制器）\n```\n\n## 脚本编写\n\n### HTTP请求配置\n\n```xml\n<HTTPSamplerProxy>\n  <stringProp name=\"HTTPSampler.domain\">api.example.com</stringProp>\n  <stringProp name=\"HTTPSampler.port\">443</stringProp>\n  <stringProp name=\"HTTPSampler.protocol\">https</stringProp>\n  <stringProp name=\"HTTPSampler.path\">/api/login</stringProp>\n  <stringProp name=\"HTTPSampler.method\">POST</stringProp>\n</HTTPSamplerProxy>\n```\n\n### 参数化\n\n```\nCSV Data Set Config:\nFilename: data/users.csv\nVariable Names: username,password\nDelimiter: ,\nRecycle on EOF: True\n```\n\n### 关联提取\n\n```\nJSON Extractor:\nVariable Name: token\nJSON Path: $.data.token\nDefault Value: NOT_FOUND\n```\n\n### 断言\n\n```\nResponse Assertion:\nField to Check: Response Code\nPattern Match Rules: Equals\nPatterns: 200\n\nJSON Assertion:\nAssert JSON Path: $.code\nExpected Value: 0\n```\n\n## 场景设计\n\n### 负载测试\n\n```\nThread Group:\n- 线程数：100\n- Ramp-Up：60秒\n- 循环次数：10\n```\n\n### 阶梯加压\n\n```\nStepping Thread Group:\n- 初始线程：10\n- 每步增加：20\n- 每步持续时间：60秒\n- 最大线程：200\n```\n\n### 稳定性测试\n\n```\nThread Group:\n- 线程数：50\n- Ramp-Up：30秒\n- 持续时间：7200秒（2小时）\n```\n\n## 结果分析\n\n### 关键指标\n\n| 指标 | 含义 | 达标标准 |\n|------|------|----------|\n| TPS | 每秒事务数 | ≥目标TPS |\n| RT | 响应时间 | P99<500ms |\n| Error% | 错误率 | <1% |\n| Throughput | 吞吐量 | ≥目标值 |\n\n### 聚合报告分析\n\n```\n关注点：\n1. Average vs 90% Line差距大 → 存在长尾请求\n2. Error%随线程数增长 → 可能是资源瓶颈\n3. TPS到顶后不再增长 → 系统容量极限\n4. Min和Max差距极大 → 请求处理不稳定\n```\n\n## 分布式压测\n\n```bash\n# Controller机器\njmeter -n -t test_plan.jmx -r -l results.jtl\n\n# Agent机器\njmeter-server -Djava.rmi.server.hostname=agent_ip\n```\n\n## 总结\n\nJMeter性能测试的核心流程：脚本编写→场景设计→执行压测→结果分析。脚本编写要确保参数化和关联正确，场景设计要模拟真实负载，结果分析要关注TPS、RT、Error%三大核心指标。"
     },
     {
@@ -21,9 +25,13 @@
       "slug": "locust-performance-testing-python",
       "excerpt": "使用Python编写Locust性能测试脚本，从基础用法到分布式压测，实现灵活可编程的性能测试方案。",
       "date": "2025-04-10",
-      "readTime": "22 min",
-      "tags": ["性能测试", "Locust", "Python", "分布式压测"],
-      "author": "测试工程师",
+      "tags": [
+        "性能测试",
+        "Locust",
+        "Python",
+        "分布式压测"
+      ],
+      "author": "测试架构师",
       "content": "## Locust vs JMeter\n\n| 维度 | Locust | JMeter |\n|------|--------|--------|\n| 语言 | Python | Java/GUI |\n| 脚本编写 | 代码 | GUI拖拽 |\n| 协议 | HTTP为主 | 多协议 |\n| 资源占用 | 低 | 高 |\n| 分布式 | 简单 | 复杂 |\n| 实时监控 | Web UI | 插件 |\n\n## 基础脚本\n\n```python\nfrom locust import HttpUser, task, between\n\nclass WebsiteUser(HttpUser):\n    wait_time = between(1, 3)\n    \n    @task(3)\n    def index(self):\n        self.client.get('/')\n    \n    @task(1)\n    def login(self):\n        self.client.post('/api/login', json={\n            'username': 'admin',\n            'password': 'admin123'\n        })\n```\n\n## 高级用法\n\n### 用户行为链\n\n```python\nclass OrderUser(HttpUser):\n    wait_time = between(1, 5)\n    \n    def on_start(self):\n        response = self.client.post('/api/login', json={\n            'username': 'testuser',\n            'password': 'test123'\n        })\n        self.token = response.json()['data']['token']\n    \n    @task\n    def browse_products(self):\n        self.client.get('/api/products', headers={\n            'Authorization': f'Bearer {self.token}'\n        })\n    \n    @task(2)\n    def create_order(self):\n        self.client.post('/api/orders', json={\n            'product_id': 1,\n            'quantity': 1\n        }, headers={\n            'Authorization': f'Bearer {self.token}'\n        })\n```\n\n### 自定义指标\n\n```python\nfrom locust import events\n\n@events.request.add_listener\ndef on_request(request_type, name, response_time, response_length, exception, **kwargs):\n    if exception:\n        print(f\"Request failed: {name}, error: {exception}\")\n    elif response_time > 1000:\n        print(f\"Slow request: {name}, time: {response_time}ms\")\n```\n\n### 分布式执行\n\n```bash\n# Master\nlocust -f locustfile.py --master --host=https://api.example.com\n\n# Worker\nlocust -f locustfile.py --worker --master-host=master_ip\n```\n\n## 执行与监控\n\n```bash\n# Web UI模式\nlocust -f locustfile.py --host=https://api.example.com\n\n# 无头模式\nlocust -f locustfile.py --headless -u 100 -r 10 -t 5m --host=https://api.example.com\n```\n\n## 总结\n\nLocust用Python编写压测脚本，灵活度高、资源占用低，特别适合HTTP接口性能测试。分布式执行简单，Web UI实时监控直观。对于需要多协议支持的场景，仍然推荐JMeter。"
     },
     {
@@ -32,9 +40,13 @@
       "slug": "performance-bottleneck-analysis-methodology",
       "excerpt": "系统化的性能瓶颈分析方法，从CPU、内存、IO、网络四个维度定位瓶颈，结合真实案例讲解从现象到根因的完整链路。",
       "date": "2025-04-02",
-      "readTime": "22 min",
-      "tags": ["性能测试", "瓶颈分析", "根因定位", "性能优化"],
-      "author": "测试工程师",
+      "tags": [
+        "性能测试",
+        "瓶颈分析",
+        "根因定位",
+        "性能优化"
+      ],
+      "author": "QA负责人",
       "content": "## 性能瓶颈分析框架\n\n```\n现象观察 → 指标分析 → 维度定位 → 根因确认 → 优化建议\n```\n\n## 四大维度排查\n\n### 1. CPU瓶颈\n\n**现象：** CPU使用率持续>80%\n\n**排查步骤：**\n```\n1. top -Hp <pid> 查看线程CPU使用\n2. jstack <pid> 导出线程dump\n3. 找到CPU最高的线程\n4. 分析线程在做什么\n```\n\n**常见原因：**\n- 死循环\n- 正则回溯\n- 频繁GC\n- 计算密集型任务\n\n### 2. 内存瓶颈\n\n**现象：** 内存使用率持续增长，频繁Full GC\n\n**排查步骤：**\n```\n1. jstat -gcutil <pid> 查看GC情况\n2. jmap -histo <pid> 查看对象分布\n3. jmap -dump:format=b,file=heap.hprof <pid>\n4. MAT分析堆dump\n```\n\n**常见原因：**\n- 内存泄漏\n- 大对象未释放\n- 缓存无限增长\n- 线程池未限制\n\n### 3. IO瓶颈\n\n**现象：** 磁盘IO等待高，数据库慢查询多\n\n**排查步骤：**\n```\n1. iostat -x 1 查看磁盘IO\n2. 查看数据库慢查询日志\n3. 分析SQL执行计划\n4. 检查索引使用情况\n```\n\n**常见原因：**\n- 缺少索引\n- 慢SQL\n- 日志写入过多\n- 文件读写频繁\n\n### 4. 网络瓶颈\n\n**现象：** 带宽使用率高，连接数过多\n\n**排查步骤：**\n```\n1. netstat -an | grep ESTABLISHED | wc -l\n2. sar -n DEV 1 查看网络流量\n3. tcpdump抓包分析\n4. 检查DNS解析时间\n```\n\n## 真实案例分析\n\n### 案例：电商下单接口RT从50ms升到2000ms\n\n```\n现象：下单接口RT突增\n分析：\n1. 查看应用日志 → 发现数据库连接池等待\n2. 查看数据库 → 发现锁等待\n3. 查看慢SQL → UPDATE stock SET count=count-1 WHERE id=?\n4. 分析原因 → 库存扣减行锁竞争\n\n优化方案：\n1. 库存扣减改为Redis预扣\n2. 异步落库\n3. 乐观锁替代悲观锁\n```\n\n## 总结\n\n性能瓶颈分析需要系统化的方法论：从现象出发，按CPU→内存→IO→网络四个维度逐步排查，最终定位根因。关键是建立监控体系，让性能问题可观测、可量化、可追溯。"
     },
     {
@@ -43,9 +55,13 @@
       "slug": "loadrunner-enterprise-performance-testing",
       "excerpt": "LoadRunner企业级性能测试实战，从VuGen脚本录制、参数化关联到Controller场景编排和Analysis结果分析。",
       "date": "2025-03-25",
-      "readTime": "22 min",
-      "tags": ["性能测试", "LoadRunner", "企业级", "场景编排"],
-      "author": "测试工程师",
+      "tags": [
+        "性能测试",
+        "LoadRunner",
+        "企业级",
+        "场景编排"
+      ],
+      "author": "自动化测试工程师",
       "content": "## LoadRunner三大组件\n\n| 组件 | 功能 | 使用场景 |\n|------|------|----------|\n| VuGen | 脚本录制与编写 | 开发测试脚本 |\n| Controller | 场景编排与执行 | 管理压测场景 |\n| Analysis | 结果分析与报告 | 分析测试结果 |\n\n## VuGen脚本开发\n\n### 脚本录制\n\n```\n1. 选择协议（Web HTTP/HTML）\n2. 设置录制选项\n3. 执行业务操作\n4. 生成脚本\n```\n\n### 参数化\n\n```c\nAction()\n{\n    lr_start_transaction(\"login\");\n    \n    web_submit_data(\"login\",\n        \"Action=http://api.example.com/login\",\n        \"Method=POST\",\n        \"RecContentType=application/json\",\n        ITEMDATA,\n        \"Name=username\", \"Value={username}\", ENDITEM,\n        \"Name=password\", \"Value={password}\", ENDITEM,\n        LAST);\n    \n    lr_end_transaction(\"login\", LR_AUTO);\n    return 0;\n}\n```\n\n### 关联\n\n```c\nweb_reg_save_param_ex(\n    \"ParamName=token\",\n    \"LB=\\\"token\\\":\\\"\",\n    \"RB=\\\"\",\n    SEARCH_HEADERS,\n    LAST);\n```\n\n## Controller场景编排\n\n### 手动场景\n\n```\nGroup 1: 浏览用户\n- Vuser数：100\n- Ramp Up：每5秒启动10个\n- 运行时间：30分钟\n\nGroup 2: 下单用户\n- Vuser数：50\n- Ramp Up：每10秒启动5个\n- 运行时间：30分钟\n```\n\n### 目标导向场景\n\n```\n目标：TPS达到1000\n- 初始Vuser：10\n- 最大Vuser：500\n- 每2分钟增加10个Vuser\n- 达到目标后持续5分钟\n```\n\n## Analysis结果分析\n\n### 关键报告\n\n1. **Summary Report**：概览TPS、RT、通过率\n2. **Average Transaction Response Time**：各事务平均响应时间\n3. **Transactions per Second**：每秒事务数趋势\n4. **Hits per Second**：每秒请求数\n5. **Throughput**：吞吐量趋势\n6. **Errors per Second**：每秒错误数\n\n## 总结\n\nLoadRunner是企业级性能测试的标准工具，特别适合多协议、复杂场景的性能测试。VuGen负责脚本开发，Controller负责场景编排，Analysis负责结果分析。虽然商业授权成本较高，但在金融、电信等行业仍是首选。"
     },
     {
@@ -54,9 +70,13 @@
       "slug": "performance-test-plan-design",
       "excerpt": "系统化的性能测试方案设计方法，从需求分析、指标确定、场景设计到容量规划，输出可落地的性能测试方案。",
       "date": "2025-03-18",
-      "readTime": "20 min",
-      "tags": ["性能测试", "方案设计", "容量规划", "需求分析"],
-      "author": "测试工程师",
+      "tags": [
+        "性能测试",
+        "方案设计",
+        "容量规划",
+        "需求分析"
+      ],
+      "author": "性能测试专家",
       "content": "## 性能测试方案框架\n\n```\n1. 需求分析\n2. 指标确定\n3. 场景设计\n4. 环境准备\n5. 脚本开发\n6. 测试执行\n7. 结果分析\n8. 容量规划\n9. 优化建议\n```\n\n## 需求分析\n\n### 关键问题\n\n1. 系统的目标用户量是多少？\n2. 高峰期的业务量是多少？\n3. 核心业务流程有哪些？\n4. 可接受的响应时间是多少？\n5. 系统可用性要求是多少？\n\n### 业务量估算\n\n```\n日活用户：10万\n高峰在线：2万（20%日活）\n并发率：15%\n并发用户数：20000 × 15% = 3000\n\n核心接口TPS估算：\n登录：3000 × 0.1 = 300 TPS\n浏览：3000 × 0.5 = 1500 TPS\n下单：3000 × 0.05 = 150 TPS\n```\n\n## 指标确定\n\n| 指标 | 目标值 | 告警阈值 |\n|------|--------|----------|\n| TPS | ≥1500 | <1200 |\n| RT(P99) | <500ms | >800ms |\n| RT(P95) | <200ms | >300ms |\n| Error% | <0.1% | >1% |\n| CPU | <70% | >80% |\n| Memory | <80% | >85% |\n\n## 场景设计\n\n### 基准测试\n```\n1个Vuser，执行5分钟\n确定基准RT和TPS\n```\n\n### 负载测试\n```\n50→100→200→500→1000 Vuser\n每阶段持续10分钟\n找到最优并发数\n```\n\n### 压力测试\n```\n超过预期负载的150%\n验证系统在极端情况下的表现\n```\n\n### 稳定性测试\n```\n70%预期负载，持续24-72小时\n验证内存泄漏和资源耗尽\n```\n\n## 容量规划\n\n```\n单机最大TPS：500\n目标TPS：1500\n冗余系数：1.3\n所需机器数：1500 / 500 × 1.3 = 3.9 ≈ 4台\n```\n\n## 总结\n\n性能测试方案设计的关键是：从业务需求出发确定性能指标，设计覆盖基准、负载、压力、稳定性的完整场景，最终输出容量规划建议。好的方案不是文档，而是可落地的测试计划。"
     }
   ]
