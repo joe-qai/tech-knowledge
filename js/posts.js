@@ -245,8 +245,6 @@ const Posts = {
               </h3>
               <div class="post-item-meta">
                 <span>${this.formatDate(post.date)}</span>
-                <span>&middot;</span>
-                <span>${post.readTime || '10 min'}</span>
               </div>
               <p class="post-item-excerpt">${this.escapeHtml(post.excerpt || '')}</p>
               <div class="post-tags">
@@ -445,6 +443,10 @@ const PostDetail = {
     const content = document.getElementById('post-content');
     if (content) {
       content.innerHTML = this.renderMarkdown(post.content);
+      // Trigger Prism syntax highlighting after content is rendered
+      if (typeof Prism !== 'undefined') {
+        Prism.highlightAllUnder(content);
+      }
     }
   },
 
@@ -454,11 +456,15 @@ const PostDetail = {
 
     html = this.renderTable(html);
 
+    // Step 1: Replace fenced code blocks with placeholders to protect content
+    const blocks = [];
     html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
-      const escapedCode = this.escapeHtml(code.trim());
-      return `<div class="code-block"><pre><code class="language-${lang || 'plaintext'}">${escapedCode}</code></pre><button class="copy-btn" onclick="PostDetail.copyCode(this)">复制</button></div>`;
+      const idx = blocks.length;
+      blocks.push({ lang: lang || 'plaintext', code: this.escapeHtml(code.trim()) });
+      return `\n{{CODEBLOCK_${idx}}}\n`;
     });
 
+    // Step 2: Process markdown (safe — code blocks are now placeholders)
     html = html.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
 
     html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
@@ -469,7 +475,6 @@ const PostDetail = {
     html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
 
     html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
-
     html = html.replace(/^\d+\. (.+)$/gm, '<li class="ordered">$1</li>');
 
     html = html.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
@@ -480,14 +485,19 @@ const PostDetail = {
 
     html = this.renderLists(html);
 
+    // Paragraph wrapping
     const paragraphs = html.split('\n\n');
     html = paragraphs.map(p => {
       if (!p.trim()) return '';
-      if (p.startsWith('<h') || p.startsWith('<ul') || p.startsWith('<ol') || p.startsWith('<pre') || p.startsWith('<blockquote') || p.startsWith('<hr') || p.startsWith('<table') || p.startsWith('<div class="code-block')) {
-        return p;
-      }
-      return `<p>${p}</p>`;
+      if (/^<(h|ul|ol|blockquote|hr|table)/.test(p)) return p;
+      return `<p>${p.trim()}</p>`;
     }).join('\n');
+
+    // Step 3: Restore code blocks
+    html = html.replace(/\{\{CODEBLOCK_(\d+)\}\}/g, (match, idx) => {
+      const { lang, code } = blocks[parseInt(idx)];
+      return `<div class="code-block"><div class="code-block-header"><span class="code-lang-label">${lang}</span><button class="copy-btn" onclick="PostDetail.copyCode(this)">复制</button></div><pre><code class="language-${lang}">${code}</code></pre></div>`;
+    });
 
     return html;
   },

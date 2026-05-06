@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -oP '```\\\\K\\\\w+' js/data/sections/*.json | sort -u)",
+      "Bash(python -m http.server 8081)",
+      "mcp__playwright__playwright_navigate",
+      "mcp__playwright__playwright_screenshot",
+      "mcp__playwright__playwright_console_logs",
+      "mcp__playwright__playwright_click",
+      "mcp__playwright__playwright_get_visible_text",
+      "mcp__playwright__playwright_evaluate",
+      "mcp__playwright__playwright_get_visible_html",
+      "Bash(timeout 3)",
+      "mcp__playwright__playwright_close"
+    ]
+  }
+}
