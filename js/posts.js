@@ -422,8 +422,6 @@ const PostDetail = {
           <div class="post-detail-meta">
             <span class="meta-item">📅 ${Posts.formatDate(post.date)}</span>
             <span class="meta-divider">·</span>
-            <span class="meta-item">⏱️ ${post.readTime || '10 min'}</span>
-            <span class="meta-divider">·</span>
             <span class="meta-item">👤 ${post.author || '测试工程师'}</span>
           </div>
           <div class="post-detail-tags">
