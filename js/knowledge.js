@@ -176,20 +176,17 @@ const Knowledge = {
     const container = document.getElementById('chat-messages');
     if (!container) return;
 
-    const time = new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
-
     const messageHTML = `
       <div class="chat-message ${type}">
         <div class="message-bubble">${this.formatMessage(content)}</div>
         ${sources.length > 0 && type === 'ai' ? this.renderSources(sources) : ''}
-        <div class="message-time">${time}</div>
       </div>
     `;
 
     container.insertAdjacentHTML('beforeend', messageHTML);
     container.scrollTop = container.scrollHeight;
 
-    this.data.chatHistory.push({ type, content, sources, time });
+    this.data.chatHistory.push({ type, content, sources });
   },
 
   formatMessage(text) {
@@ -281,7 +278,6 @@ const Knowledge = {
               <div class="chat-message ${msg.type}">
                 <div class="message-bubble">${this.formatMessage(msg.content)}</div>
                 ${msg.sources?.length > 0 ? this.renderSources(msg.sources) : ''}
-                <div class="message-time">${msg.time}</div>
               </div>
             `;
             container.insertAdjacentHTML('beforeend', messageHTML);
