@@ -410,14 +410,10 @@ const PostDetail = {
     const header = document.querySelector('.post-detail-header');
       if (header) {
         header.innerHTML = `
-          <button class="back-btn" onclick="history.back()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="19" y1="12" x2="5" y2="12"></line>
-              <polyline points="12 19 5 12 12 5"></polyline>
-            </svg>
-            返回
-          </button>
-          <h1 class="post-detail-title">${this.escapeHtml(post.title)}</h1>
+          <h1 class="post-detail-title">
+            <a href="javascript:history.back()" class="back-link">&lt;</a>
+            ${this.escapeHtml(post.title)}
+          </h1>
           <div class="post-detail-meta">
             <div class="post-detail-meta-item">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
