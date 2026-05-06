@@ -44,6 +44,7 @@ const Posts = {
         './js/data/sections/agent-platform.json',
         './js/data/sections/performance.json',
         './js/data/sections/automation.json',
+        './js/data/sections/testing-theory.json',
         './js/data/sections/interview.json'
       ];
 
@@ -97,6 +98,7 @@ const Posts = {
       './js/data/sections/agent-platform.json',
       './js/data/sections/performance.json',
       './js/data/sections/automation.json',
+      './js/data/sections/testing-theory.json',
       './js/data/sections/interview.json'
     ];
 
@@ -119,23 +121,6 @@ const Posts = {
       } catch (e) {
         console.warn('Failed to load:', file, e);
       }
-    }
-
-    try {
-      const theoryResponse = await fetch('./js/data/sections/testing-theory.json');
-      if (theoryResponse.ok) {
-        const theoryData = await theoryResponse.json();
-        if (theoryData.articles && Array.isArray(theoryData.articles)) {
-          const theoryArticles = theoryData.articles.map(article => ({
-            ...article,
-            _categorySlug: 'interview',
-            _categoryName: '面试题库'
-          }));
-          allPosts.push(...theoryArticles);
-        }
-      }
-    } catch (e) {
-      console.warn('Failed to load testing-theory:', e);
     }
 
     if (allPosts.length === 0) {
