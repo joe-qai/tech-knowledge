@@ -2332,10 +2332,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .post-detail-content {
   display: grid;
-  grid-template-columns: 260px 1fr;
+  grid-template-columns: 1fr 260px;
   gap: 48px;
   padding: 40px 0;
-  grid-template-areas: "sidebar content";
+  grid-template-areas: "content sidebar";
 }
 
 .post-detail-content .post-body {
@@ -2357,8 +2357,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .toc-sidebar {
-  position: sticky;
+  position: fixed;
   top: 100px;
+  right: max(calc((100vw - 1200px) / 2), 20px);
+  width: 260px;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
   align-self: start;
 }
 
