@@ -452,6 +452,8 @@ const PostDetail = {
     if (!text) return '';
     let html = text;
 
+    html = this.renderTable(html);
+
     html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
       return `<pre><code class="language-${lang || 'plaintext'}">${this.escapeHtml(code.trim())}</code><button class="copy-btn" onclick="PostDetail.copyCode(this)">复制</button></pre>`;
     });
@@ -475,16 +477,75 @@ const PostDetail = {
 
     html = html.replace(/^---$/gm, '<hr>');
 
+    html = this.renderUnorderedList(html);
+    html = this.renderOrderedList(html);
+
     const paragraphs = html.split('\n\n');
     html = paragraphs.map(p => {
       if (!p.trim()) return '';
-      if (p.startsWith('<h') || p.startsWith('<li') || p.startsWith('<pre') || p.startsWith('<blockquote') || p.startsWith('<hr')) {
+      if (p.startsWith('<h') || p.startsWith('<li') || p.startsWith('<pre') || p.startsWith('<blockquote') || p.startsWith('<hr') || p.startsWith('<table')) {
         return p;
       }
       return `<p>${p}</p>`;
     }).join('\n');
 
     return html;
+  },
+
+  renderTable(text) {
+    const tableRegex = /^\|(.+)\|[\r\n]+\|[-:\s|]+\|[\r\n]+((?:\|.+\|[\r\n]*)+)/gm;
+    return text.replace(tableRegex, (match, headerRow, bodyRows) => {
+      const headers = headerRow.split('|').map(h => h.trim()).filter(h => h);
+      const rows = bodyRows.trim().split('\n').map(row => {
+        return row.split('|').map(cell => cell.trim()).filter(cell => cell);
+      });
+
+      let thead = '<thead><tr>' + headers.map(h => `<th>${h}</th>`).join('') + '</tr></thead>';
+      let tbody = '<tbody>' + rows.map(row => '<tr>' + row.map(cell => `<td>${cell}</td>`).join('') + '</tr>').join('') + '</tbody>';
+
+      return `<table>${thead}${tbody}</table>`;
+    });
+  },
+
+  renderUnorderedList(text) {
+    const lines = text.split('\n');
+    const result = [];
+    let inList = false;
+    let listItems = [];
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      const listMatch = line.match(/^<li>(.+)<\/li>$/);
+
+      if (listMatch && !line.startsWith('<ol') && !line.startsWith('</ol')) {
+        if (!inList) {
+          inList = true;
+          listItems = [];
+        }
+        listItems.push(listMatch[1]);
+      } else {
+        if (inList) {
+          result.push('<ul>' + listItems.map(item => `<li>${item}</li>`).join('') + '</ul>');
+          inList = false;
+          listItems = [];
+        }
+        result.push(line);
+      }
+    }
+
+    if (inList) {
+      result.push('<ul>' + listItems.map(item => `<li>${item}</li>`).join('') + '</ul>');
+    }
+
+    return result.join('\n');
+  },
+
+  renderOrderedList(text) {
+    const ulRegex = /<ul>([\s\S]*?)<\/ul>/g;
+    return text.replace(ulRegex, (match, content) => {
+      if (content.includes('<ol')) return match;
+      return match;
+    });
   },
 
   escapeHtml(text) {
