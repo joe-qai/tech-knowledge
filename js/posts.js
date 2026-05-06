@@ -455,10 +455,11 @@ const PostDetail = {
     html = this.renderTable(html);
 
     html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
-      return `<pre><code class="language-${lang || 'plaintext'}">${this.escapeHtml(code.trim())}</code><button class="copy-btn" onclick="PostDetail.copyCode(this)">复制</button></pre>`;
+      const escapedCode = this.escapeHtml(code.trim());
+      return `<div class="code-block"><pre><code class="language-${lang || 'plaintext'}">${escapedCode}</code></pre><button class="copy-btn" onclick="PostDetail.copyCode(this)">复制</button></div>`;
     });
 
-    html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+    html = html.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
 
     html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
     html = html.replace(/^## (.+)$/gm, '<h2 id="$1">$1</h2>');
@@ -469,7 +470,7 @@ const PostDetail = {
 
     html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
 
-    html = html.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
+    html = html.replace(/^\d+\. (.+)$/gm, '<li class="ordered">$1</li>');
 
     html = html.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
 
@@ -477,13 +478,12 @@ const PostDetail = {
 
     html = html.replace(/^---$/gm, '<hr>');
 
-    html = this.renderUnorderedList(html);
-    html = this.renderOrderedList(html);
+    html = this.renderLists(html);
 
     const paragraphs = html.split('\n\n');
     html = paragraphs.map(p => {
       if (!p.trim()) return '';
-      if (p.startsWith('<h') || p.startsWith('<li') || p.startsWith('<pre') || p.startsWith('<blockquote') || p.startsWith('<hr') || p.startsWith('<table')) {
+      if (p.startsWith('<h') || p.startsWith('<ul') || p.startsWith('<ol') || p.startsWith('<pre') || p.startsWith('<blockquote') || p.startsWith('<hr') || p.startsWith('<table') || p.startsWith('<div class="code-block')) {
         return p;
       }
       return `<p>${p}</p>`;
@@ -492,60 +492,61 @@ const PostDetail = {
     return html;
   },
 
-  renderTable(text) {
-    const tableRegex = /^\|(.+)\|[\r\n]+\|[-:\s|]+\|[\r\n]+((?:\|.+\|[\r\n]*)+)/gm;
-    return text.replace(tableRegex, (match, headerRow, bodyRows) => {
-      const headers = headerRow.split('|').map(h => h.trim()).filter(h => h);
-      const rows = bodyRows.trim().split('\n').map(row => {
-        return row.split('|').map(cell => cell.trim()).filter(cell => cell);
-      });
-
-      let thead = '<thead><tr>' + headers.map(h => `<th>${h}</th>`).join('') + '</tr></thead>';
-      let tbody = '<tbody>' + rows.map(row => '<tr>' + row.map(cell => `<td>${cell}</td>`).join('') + '</tr>').join('') + '</tbody>';
-
-      return `<table>${thead}${tbody}</table>`;
-    });
-  },
-
-  renderUnorderedList(text) {
+  renderLists(text) {
     const lines = text.split('\n');
     const result = [];
-    let inList = false;
+    let inUnorderedList = false;
+    let inOrderedList = false;
     let listItems = [];
 
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
-      const listMatch = line.match(/^<li>(.+)<\/li>$/);
+      const unorderedMatch = line.match(/^<li>(?!class="ordered")(.+)<\/li>$/);
+      const orderedMatch = line.match(/^<li class="ordered">(.+)<\/li>$/);
 
-      if (listMatch && !line.startsWith('<ol') && !line.startsWith('</ol')) {
-        if (!inList) {
-          inList = true;
-          listItems = [];
+      if (unorderedMatch && !inOrderedList) {
+        if (inUnorderedList) {
+          listItems.push(unorderedMatch[1]);
+        } else {
+          if (inOrderedList) {
+            result.push('<ol>' + listItems.map(item => `<li>${item.replace(/<li class="ordered">|<\/li>/g, '')}</li>`).join('') + '</ol>');
+            inOrderedList = false;
+          }
+          inUnorderedList = true;
+          listItems = [unorderedMatch[1]];
         }
-        listItems.push(listMatch[1]);
+      } else if (orderedMatch && !inUnorderedList) {
+        if (inOrderedList) {
+          listItems.push(orderedMatch[1]);
+        } else {
+          if (inUnorderedList) {
+            result.push('<ul>' + listItems.map(item => `<li>${item}</li>`).join('') + '</ul>');
+            inUnorderedList = false;
+          }
+          inOrderedList = true;
+          listItems = [orderedMatch[1]];
+        }
       } else {
-        if (inList) {
+        if (inUnorderedList) {
           result.push('<ul>' + listItems.map(item => `<li>${item}</li>`).join('') + '</ul>');
-          inList = false;
+          inUnorderedList = false;
+          listItems = [];
+        } else if (inOrderedList) {
+          result.push('<ol>' + listItems.map(item => `<li>${item}</li>`).join('') + '</ol>');
+          inOrderedList = false;
           listItems = [];
         }
         result.push(line);
       }
     }
 
-    if (inList) {
+    if (inUnorderedList) {
       result.push('<ul>' + listItems.map(item => `<li>${item}</li>`).join('') + '</ul>');
+    } else if (inOrderedList) {
+      result.push('<ol>' + listItems.map(item => `<li>${item}</li>`).join('') + '</ol>');
     }
 
     return result.join('\n');
-  },
-
-  renderOrderedList(text) {
-    const ulRegex = /<ul>([\s\S]*?)<\/ul>/g;
-    return text.replace(ulRegex, (match, content) => {
-      if (content.includes('<ol')) return match;
-      return match;
-    });
   },
 
   escapeHtml(text) {
