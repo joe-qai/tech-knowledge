@@ -410,10 +410,8 @@ const PostDetail = {
     const header = document.querySelector('.post-detail-header');
       if (header) {
         header.innerHTML = `
-          <h1 class="post-detail-title">
-            <a href="javascript:history.back()" class="back-link">&lt;</a>
-            ${this.escapeHtml(post.title)}
-          </h1>
+          <a href="javascript:history.back()" class="back-link">&lt; 返回</a>
+          <h1 class="post-detail-title">${this.escapeHtml(post.title)}</h1>
           <div class="post-detail-meta">
             <div class="post-detail-meta-item">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
