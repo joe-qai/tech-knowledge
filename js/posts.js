@@ -409,36 +409,24 @@ const PostDetail = {
 
     const header = document.querySelector('.post-detail-header');
       if (header) {
+        const categoryName = post._categoryName || post.category || '未分类';
         header.innerHTML = `
           <a href="javascript:history.back()" class="back-link">&lt; 返回</a>
+          <div class="post-detail-breadcrumb">
+            <span class="breadcrumb-item">文章</span>
+            <span class="breadcrumb-separator">&gt;</span>
+            <span class="breadcrumb-item breadcrumb-category">${categoryName}</span>
+          </div>
           <h1 class="post-detail-title">${this.escapeHtml(post.title)}</h1>
           <div class="post-detail-meta">
-            <div class="post-detail-meta-item">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                <line x1="16" y1="2" x2="16" y2="6"></line>
-                <line x1="8" y1="2" x2="8" y2="6"></line>
-                <line x1="3" y1="10" x2="21" y2="10"></line>
-              </svg>
-              <span>${Posts.formatDate(post.date)}</span>
-            </div>
-            <div class="post-detail-meta-item">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <polyline points="12 6 12 12 16 14"></polyline>
-              </svg>
-              <span>${post.readTime || '10 min'}</span>
-            </div>
-            <div class="post-detail-meta-item">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-              </svg>
-              <span>${post.author || '测试工程师'}</span>
-            </div>
+            <span class="meta-item">📅 ${Posts.formatDate(post.date)}</span>
+            <span class="meta-divider">·</span>
+            <span class="meta-item">⏱️ ${post.readTime || '10 min'}</span>
+            <span class="meta-divider">·</span>
+            <span class="meta-item">👤 ${post.author || '测试工程师'}</span>
           </div>
           <div class="post-detail-tags">
-            ${post.tags ? post.tags.map(tag => `<span class="tag">${this.escapeHtml(tag)}</span>`).join('') : ''}
+            ${post.tags ? post.tags.map(tag => `<span class="tag">#${this.escapeHtml(tag)}</span>`).join(' ') : ''}
           </div>
         `;
       }
