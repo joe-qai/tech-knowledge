@@ -259,10 +259,11 @@ const Posts = {
       'mcp': '#06b6d4',
       'skills': '#f59e0b',
       'llm': '#3b82f6',
-      'ai-tools': '#10b981',
+      'devops': '#14b8a6',
       'agent-platform': '#6366f1',
       'performance': '#ef4444',
       'automation': '#22c55e',
+      'test-management': '#eab308',
       'testing-theory': '#f97316',
       'interview': '#a855f7'
     };
