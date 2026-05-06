@@ -98,5 +98,30 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => PostDetail.init());
   </script>
+
+  <div class="wechat-float-btn" onclick="showWechatModal()">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 01.213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 00.167-.054l1.903-1.114a.864.864 0 01.717-.098 10.16 10.16 0 002.837.403c4.801 0 8.692-3.287 8.692-7.342 0-4.054-3.891-7.339-8.692-7.339zm-3.12 4.218c.552 0 1 .452 1 1.008 0 .556-.448 1.008-1 1.008-.553 0-1-.452-1-1.008 0-.556.447-1.008 1-1.008zm6 0c.552 0 1 .452 1 1.008 0 .556-.448 1.008-1 1.008-.553 0-1-.452-1-1.008 0-.556.447-1.008 1-1.008zm3.06 2.577c-1.797-.052-3.446.682-4.646 1.833-1.225 1.175-1.932 2.782-1.88 4.579.052 1.797.682 3.446 1.833 4.646 1.175 1.225 2.782 1.932 4.579 1.88 1.797-.052 3.446-.682 4.646-1.833 1.225-1.175 1.932-2.782 1.88-4.579-.052-1.797-.682-3.446-1.833-4.646-1.158-1.202-2.759-1.911-4.542-1.86zm-1.516 3.016c.552 0 1 .452 1 1.008 0 .556-.448 1.008-1 1.008-.553 0-1-.452-1-1.008 0-.556.447-1.008 1-1.008zm3 0c.552 0 1 .452 1 1.008 0 .556-.448 1.008-1 1.008-.553 0-1-.452-1-1.008 0-.556.447-1.008 1-1.008z"/>
+    </svg>
+  </div>
+
+  <div class="wechat-modal-overlay" id="wechatModal" onclick="hideWechatModal()">
+    <div class="wechat-modal" onclick="event.stopPropagation()">
+      <div class="wechat-modal-title">微信公众号</div>
+      <div class="wechat-modal-qrcode">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=TechKnowledge" alt="微信公众号二维码" style="width: 180px; height: 180px;"/>
+      </div>
+      <div class="wechat-modal-desc">扫码关注公众号<br/>获取更多测试技术干货</div>
+    </div>
+  </div>
+
+  <script>
+    function showWechatModal() {
+      document.getElementById('wechatModal').classList.add('active');
+    }
+    function hideWechatModal() {
+      document.getElementById('wechatModal').classList.remove('active');
+    }
+  </script>
 </body>
 </html>
