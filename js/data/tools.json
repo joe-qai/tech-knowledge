@@ -1,0 +1,10 @@
+{
+  "tools": [
+    { "name": "正则表达式测试", "key": "regex" },
+    { "name": "JSON格式化", "key": "json" },
+    { "name": "URL编解码", "key": "url" },
+    { "name": "时间戳转换", "key": "timestamp" },
+    { "name": "Base64编解码", "key": "base64" },
+    { "name": "Hash生成器", "key": "hash" }
+  ]
+}

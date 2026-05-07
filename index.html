@@ -94,17 +94,17 @@
               <span>测试工具</span>
             </a>
           </div>
-          <div class="hero-stats">
+          <div class="hero-stats" id="hero-stats">
             <div class="hero-stat">
-              <span class="hero-stat-value">50+</span>
+              <span class="hero-stat-value" id="stat-articles">--</span>
               <span class="hero-stat-label">技术文章</span>
             </div>
             <div class="hero-stat">
-              <span class="hero-stat-value">10</span>
+              <span class="hero-stat-value" id="stat-categories">--</span>
               <span class="hero-stat-label">专题栏目</span>
             </div>
             <div class="hero-stat">
-              <span class="hero-stat-value">10+</span>
+              <span class="hero-stat-value" id="stat-tools">--</span>
               <span class="hero-stat-label">实用工具</span>
             </div>
           </div>
@@ -213,10 +213,42 @@
       'Python', 'TypeScript', 'Vue.js', 'Node.js'
     ];
 
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
       renderRadarGrid();
       renderTechStack();
+      await loadStats();
     });
+
+    async function loadStats() {
+      const SECTION_FILES = [
+        'agent', 'prompts', 'mcp', 'skills', 'llm', 'ai-tools',
+        'agent-platform', 'performance', 'automation', 'test-management',
+        'testing-theory', 'interview', 'devops'
+      ];
+
+      let totalArticles = 0;
+      for (const slug of SECTION_FILES) {
+        try {
+          const res = await fetch(`./js/data/sections/${slug}.json`);
+          if (res.ok) {
+            const data = await res.json();
+            totalArticles += data.articles ? data.articles.length : 0;
+          }
+        } catch (e) {}
+      }
+
+      const categoriesRes = await fetch('./js/data/sections/index.json');
+      const categoriesData = await categoriesRes.json();
+      const totalCategories = categoriesData.categories ? categoriesData.categories.length : 0;
+
+      const toolsRes = await fetch('./js/data/tools.json');
+      const toolsData = await toolsRes.json();
+      const toolsCount = toolsData.tools ? toolsData.tools.length : 0;
+
+      document.getElementById('stat-articles').textContent = totalArticles > 0 ? totalArticles + '+' : '--';
+      document.getElementById('stat-categories').textContent = totalCategories > 0 ? totalCategories : '--';
+      document.getElementById('stat-tools').textContent = toolsCount > 0 ? toolsCount + '+' : '--';
+    }
 
     function renderRadarGrid() {
       const grid = document.getElementById('radar-grid');
