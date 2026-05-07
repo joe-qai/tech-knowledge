@@ -292,6 +292,53 @@
     function hideWechatModal() {
       document.getElementById('wechatModal').classList.remove('active');
     }
+
+    async function loadStats() {
+      try {
+        const sectionFiles = [
+          './js/data/sections/agent.json',
+          './js/data/sections/prompts.json',
+          './js/data/sections/mcp.json',
+          './js/data/sections/skills.json',
+          './js/data/sections/llm.json',
+          './js/data/sections/devops.json',
+          './js/data/sections/agent-platform.json',
+          './js/data/sections/performance.json',
+          './js/data/sections/automation.json',
+          './js/data/sections/test-management.json',
+          './js/data/sections/testing-theory.json',
+          './js/data/sections/interview.json'
+        ];
+
+        let totalArticles = 0;
+        for (const file of sectionFiles) {
+          try {
+            const res = await fetch(file);
+            const data = await res.json();
+            if (data.articles && Array.isArray(data.articles)) {
+              totalArticles += data.articles.length;
+            }
+          } catch (e) {
+            console.warn('[Stats] Failed to load:', file, e);
+          }
+        }
+
+        document.getElementById('stat-articles').textContent = totalArticles;
+        document.getElementById('stat-categories').textContent = CATEGORIES.length;
+        document.getElementById('stat-tools').textContent = TECH_STACK.length;
+      } catch (error) {
+        console.error('[Stats] Failed to load stats:', error);
+        document.getElementById('stat-articles').textContent = '50+';
+        document.getElementById('stat-categories').textContent = '12';
+        document.getElementById('stat-tools').textContent = '10+';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadStats();
+      renderRadarGrid();
+      renderTechStack();
+    });
   </script>
 </body>
 </html>
